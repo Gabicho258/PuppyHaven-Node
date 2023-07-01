@@ -28,7 +28,7 @@ export default connection.promise();
 });*/
 
 // const testConnection =()=>{
-//     connection.query('SELECT * FROM alumnos', (err, results) => {
+//     connection.query('SELECT * FROM userModel', (err, results) => {
 //         if (err) {
 //           console.error('Error en la prueba de conexión:', err);
 //           connection.end();

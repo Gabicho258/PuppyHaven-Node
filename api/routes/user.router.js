@@ -10,14 +10,12 @@ const router = express.Router();
 const userRoutes = {
   SALUDAR: "/users/saludar/:name",
   SALUDAR2: "/users/saludar2",
-  database: "/probar/conexion",
-  OBTENER: "/getAlumnos",
-  INSERTAR: "/postAlumnos",
-  EDITAR: "/putAlumnos",
-  ELIMINAR: "/deleteAlumnos/:id"
+  OBTENER: "/getuserModel",
+  INSERTAR: "/postuserModel",
+  EDITAR: "/putuserModel",
+  ELIMINAR: "/deleteuserModel/:id"
 };
 router.post(userRoutes.SALUDAR, saludar);
-
 router.get(userRoutes.OBTENER, getAllAlumnos);
 router.post(userRoutes.INSERTAR, postAlumnos);
 router.put(userRoutes.EDITAR, putAlumnos);

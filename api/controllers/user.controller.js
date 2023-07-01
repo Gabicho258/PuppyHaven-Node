@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
-import alumnos from "../models/user.model.js";
+import {userModel} from "../models/index.js";
+
+const USER = "alumno";
 export const saludar = async (req, res) => {
   try {
     const { name } = req.params;
@@ -31,7 +33,7 @@ export const saludar = async (req, res) => {
 };
 export const getAllAlumnos = async (req, res, next) => {
   try{
-    const [allAlumnos] = await alumnos.fetchAll();
+    const [allAlumnos] = await userModel.fetchAll();
     res.status(200).json(allAlumnos);
   } catch (err){
       if(!err.statusCode){
@@ -43,7 +45,7 @@ export const getAllAlumnos = async (req, res, next) => {
 
 export const postAlumnos = async (req, res, next) => {
   try {
-    const postResponse = await alumnos.post(req.body.id, req.body.item, req.body.status);
+    const postResponse = await userModel.post(req.body.id, req.body.item, req.body.status);
     res.status(201).json(postResponse);
   } catch (err) {
     if (!err.statusCode) {
@@ -55,7 +57,7 @@ export const postAlumnos = async (req, res, next) => {
 
 export const putAlumnos = async (req, res, next) => {
   try {
-    const putResponse = await alumnos.update(req.body.id, req.body.item, req.body.status);
+    const putResponse = await userModel.update(req.body.id, req.body.item, req.body.status);
     res.status(200).json(putResponse);
   } catch (err) {
     if (!err.statusCode) {
@@ -67,7 +69,7 @@ export const putAlumnos = async (req, res, next) => {
 
 export const deleteAlumnos = async (req, res, next) => {
   try {
-    const deleteResponse = await alumnos.delete(req.params.id);
+    const deleteResponse = await userModel.delete(req.params.id);
     res.status(200).json(deleteResponse);
   } catch (err) {
     if (!err.statusCode) {
