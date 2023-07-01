@@ -41,9 +41,9 @@ export const getAllAlumnos = async (req, res, next) => {
   }
 };
 
-export const post = async (req, res, next) => {
+export const postAlumnos = async (req, res, next) => {
   try {
-    const postResponse = await alumnos.post(req.body.item);
+    const postResponse = await alumnos.post(req.body.id, req.body.item, req.body.status);
     res.status(201).json(postResponse);
   } catch (err) {
     if (!err.statusCode) {
@@ -53,9 +53,9 @@ export const post = async (req, res, next) => {
   }
 };
 
-export const putGrocery = async (req, res, next) => {
+export const putAlumnos = async (req, res, next) => {
   try {
-    const putResponse = await alumnos.update(req.body.codigo, req.body.name, req.body.status);
+    const putResponse = await alumnos.update(req.body.id, req.body.item, req.body.status);
     res.status(200).json(putResponse);
   } catch (err) {
     if (!err.statusCode) {
@@ -65,7 +65,7 @@ export const putGrocery = async (req, res, next) => {
   }
 };
 
-export const deleteGrocery = async (req, res, next) => {
+export const deleteAlumnos = async (req, res, next) => {
   try {
     const deleteResponse = await alumnos.delete(req.params.id);
     res.status(200).json(deleteResponse);

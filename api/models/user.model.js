@@ -11,15 +11,15 @@ export default  class alumnos{
         return connection.execute('SELECT * FROM alumno')
     }
 
-    static post(item) {
-        return connection.execute('INSERT INTO alumno set ?)', [item]);
+    static post(id, item, status) {
+        return connection.execute('INSERT INTO alumno set codigo=?, nombre=?, estado=?' , [id, item, status]);
     }
     
-    static update(id, item) {
-        return connection.execute('UPDATE alumno set ? WHERE codigo = ?', [item, id]);
+    static update(id, item, status) {
+        return connection.execute('UPDATE alumno set nombre=?, estado=? WHERE codigo = ?', [item, status, id]);
     }
     
     static delete(id) {
-        return connection.execute('DELETE FROM alumno WHERE codigo = ?', [id]);
+        return connection.execute('DELETE FROM alumno WHERE codigo=?', [id]);
     }
 };
