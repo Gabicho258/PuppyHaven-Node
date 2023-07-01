@@ -1,34 +1,110 @@
 import bcrypt from "bcrypt";
-export const saludar = async (req, res) => {
+import pool from "../../database.js";
+
+export const register = async (req, res) => {
   try {
-    const { name } = req.params;
-    console.log(`El name es ${name}`);
-    const { id, password: passwordBody } = req.body;
-    console.log(`El id es ${id}`);
-    console.log(`El password es ${passwordBody}`);
-    const password = await bcrypt.hash(name, 10);
-    // res.status(200).send(`funciona. password ${password}`);
+    if(req.session.loggedin == true){
+      console.log("Hola");
+      res.redirect("/");
+    } else{
+      console.log("Adios");
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error en el servidor");
+  }
+}
 
-    bcrypt.compare(passwordBody, password, (err, result) => {
-      if (result) {
-        console.log("result es true");
-        // res.status(200).send("Acceso concedido");
-        res
-          .status(200)
-          .json({ userName: "Pedro", edad: 20, id: 22, role: "admin" });
-      } else {
-        console.log("result es false");
-        res.status(200).send("Acceso denegado");
-      }
-    });
-
-    // res.status(200).json({ userName: "Pedro", edad: 20, id: 22 });
+export const login = async (req, res) => {
+  try {
+    if(req.session.loggedin == true){
+      console.log("Hola");
+      res.redirect("/");
+    } else{
+      console.log("Adios");
+      res.redirect("/");
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send("Error en el servidor");
   }
 };
-export const saludar2 = async (req, res) => {};
-export const saludar3 = async (req, res) => {};
-export const saludar4 = async (req, res) => {};
-export const saludar5 = async (req, res) => {};
+export const auth = async (req, res) => {
+  try {
+    const user = req.body;
+    const { email, password: passwordBody } = req.body;
+    pool.query('SELECT * FROM users WHERE email = ?', [email], (err, userdata) =>{
+      if(userdata.length > 0){
+        userdata.forEach(element => {
+          bcrypt.compare(passwordBody, element.password, (err, isMatch)=>{
+            console.log(element.password);
+            console.log(isMatch);
+            if(!isMatch){
+              res
+                .status(200)
+                .send("<h1>No ingreso Funciona</h1>");
+              console.log("Contraseña incorrecta");
+            } else {
+              req.session.loggedin = true;
+              req.session.name = element.name;  
+              res
+                .status(200)
+                .send("<h1>Ingreso Funciona</h1>");
+              console.log("Contraseña correcta");
+            }
+          });
+        });
+      }
+      else{
+        res.status(400).send("Error el usuario no existente");
+        console.log("El usuario no existe");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error en el servidor");
+  }  
+
+};
+export const storyUser = async (req, res) => {
+  try {
+    const user = req.body;
+    const { name, email, password: passwordBody } = req.body;
+    const password = await bcrypt.hash(passwordBody, 10);
+    user.password = password;
+    pool.query('SELECT * FROM users WHERE email = ?', [email], (err, userdata) =>{
+      if(userdata.length > 0){
+        res.status(400).send("Error el usuario ya existente");
+        console.log("El usuario ya existe");
+      }
+      else{
+        pool.query('INSERT INTO users SET ?', [user])
+        req.session.loggedin = true;
+        req.session.name = name; 
+        res
+          .status(200)
+          .json({ userName: name, email: email });
+        console.log("El usuario se ha creado");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error en el servidor");
+  }  
+};
+export const logout = async (req,res) => {
+  try {
+    if(req.session.loggedin == true){
+      
+      req.session.destroy();
+      res.redirect("/");
+
+    } else{
+      res.redirect("/api/users/login");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error en el servidor");
+  }
+};
