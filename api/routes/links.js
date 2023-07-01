@@ -1,4 +1,4 @@
-import express from "express";
+/*import express from "express";
 import { connection } from "../../database.js";
 const router = express.Router();
 
@@ -17,4 +17,4 @@ router.post('/add', async (req, res) => {
     res.send('recibido');
 });
 
-export default router;
+export default router;*/

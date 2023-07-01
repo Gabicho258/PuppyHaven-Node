@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import alumnos from "../models/user.model.js";
 export const saludar = async (req, res) => {
   try {
     const { name } = req.params;
@@ -28,7 +29,53 @@ export const saludar = async (req, res) => {
     res.status(500).send("Error en el servidor");
   }
 };
-export const saludar2 = async (req, res) => {};
+export const getAllAlumnos = async (req, res, next) => {
+  try{
+    const [allAlumnos] = await alumnos.fetchAll();
+    res.status(200).json(allAlumnos);
+  } catch (err){
+      if(!err.statusCode){
+        err.statusCode = 500
+      }
+      next(err);
+  }
+};
+
+export const post = async (req, res, next) => {
+  try {
+    const postResponse = await alumnos.post(req.body.item);
+    res.status(201).json(postResponse);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+export const putGrocery = async (req, res, next) => {
+  try {
+    const putResponse = await alumnos.update(req.body.codigo, req.body.name, req.body.status);
+    res.status(200).json(putResponse);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
+
+export const deleteGrocery = async (req, res, next) => {
+  try {
+    const deleteResponse = await alumnos.delete(req.params.id);
+    res.status(200).json(deleteResponse);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
 export const saludar3 = async (req, res) => {};
 export const saludar4 = async (req, res) => {};
 export const saludar5 = async (req, res) => {};

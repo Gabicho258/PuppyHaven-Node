@@ -1,15 +1,14 @@
-import mysql from "mysql";
-import promisify  from "util";
-
-
-export const connection = mysql.createConnection({
+import mysql from "mysql2";
+const connection = mysql.createPool({
         host: process.env.HOST_DB,
         port: process.env.PORT_DB,
         user: process.env.USER_DB,
         password: "",
         database: process.env.DATABASE_DB
 });
-connection.connect((err, conexión) =>{
+
+export default connection.promise();
+/*connection.connect((err, conexión) =>{
     if(err){
         if(err.code === 'PROTOCOL_CONNECTION_LOST'){
             console.log('DATABASE CONNECTION CERRADA');
@@ -26,7 +25,7 @@ connection.connect((err, conexión) =>{
     if(conexión){
         console.log('Base de datos conectada');
     }
-});
+});*/
 
 // const testConnection =()=>{
 //     connection.query('SELECT * FROM alumnos', (err, results) => {
