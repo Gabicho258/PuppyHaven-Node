@@ -1,20 +1,13 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config.js"
-import { userRouter, distritoRouter, calificacionRouter} from "./api/routes/index.js";
-import ejsMate from "ejs-mate";
-import { dirname, join } from "path";
+import { userRouter, distritoRouter, calificacionRouter,petRouter, paseosRouter, tramiteRouter } from "./api/routes/index.js";
 import bodyParser from "body-parser";
 
-//permite usar el --dirname para la plantilla
-const __dirname = dirname(process.argv[1]);
+
 
 const app = express();
 
-// Configuración del motor de plantillas EJS
-app.engine("ejs", ejsMate);
-app.set("view engine", "ejs");
-app.set("views", join(__dirname, "views"));
 //Permite la lectura del form 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,6 +24,9 @@ app.use((req, res, next) => {
 app.use("/api", userRouter);  
 app.use("/distrito", distritoRouter);
 app.use("/calificacion", calificacionRouter);
+app.use("/mascota", petRouter);
+app.use("/paseos", paseosRouter);
+app.use("/tramite", tramiteRouter);
 
 const PORT = process.env.PORT || 5000;
 const USER = process.env.USER_DB;
