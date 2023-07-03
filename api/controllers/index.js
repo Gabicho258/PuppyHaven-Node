@@ -1,4 +1,5 @@
-import * as userController from "./user.controller.js";
-import * as petController from "./user.controller.js";
+import * as userController from "./user.login.controller.js";
+import * as petController from "./user.login.controller.js";
+import * as walkerController from "./walker.login.controller.js"
 
-export { userController, petController };
+export { userController, petController, walkerController };
