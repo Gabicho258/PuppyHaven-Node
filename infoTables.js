@@ -19,19 +19,3 @@ const TableCodFields = {
     [TableName.TRAMITES]: 'traCod',
     [TableName.PET]: 'masCod'
 };
-
-const TableNameFields = {
-    [TableName.USERFINAL]: 'usu_cod',
-    [TableName.PASEADORES]: 'pas_cod',
-};
-const TableCorFields = {
-    [TableName.USERFINAL]: 'usu_cor',
-    [TableName.PASEADORES]: 'pas_cor',
-};
-const TableConFields = {
-    [TableName.USERFINAL]: 'usu_con',
-    [TableName.PASEADORES]: 'pas_con',
-};
-
-
-export {TableName, TableCodFields, TableNameFields, TableCorFields, TableConFields };

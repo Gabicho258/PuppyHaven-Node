@@ -1,29 +1,23 @@
 import mysql from "mysql2";
-import { promisify } from "util";
+const connection = mysql.createPool(process.env.URL_DB,);
 
-import { database } from "./keys.js";
-
-const pool = mysql.createPool(database);
-
-pool.getConnection((err, connection) =>{
-    if (err){
-        if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.log('Laa conexión de la base de datos fue cerrada');
+connection.getConnection((err, conexión) =>{
+    if(err){
+        if(err.code === 'PROTOCOL_CONNECTION_LOST'){
+            console.log('DATABASE CONNECTION CERRADA');
+            return;
+        } else if(err.code === 'ER_CON_COUNT_ERROR'){
+            console.log('DATABASE TIENE DOS CONEXIÓN');
+            return;
+        } else if (err.code === 'ECONNREFUSED'){
+            console.log('Conexión no permitida');
+            return; 
         }
-        if(err.code === 'ER_CON_COUNT_ERROR') {
-            console.log("La base de datos tiene muchas conexiones");
-        }
-        if(err.code === 'ECONNREFUSED') {
-            console.log("La base de datos fue rechazada");
-        }
+        console.log(process.env.PASSWORD_DB);
     }
-    if (connection) connection.release();
-    console.log("La base de datos esta joya")
-    return;
+    if(conexión){
+        console.log('Base de datos conectada');
+    }
 });
 
-pool.query = promisify(pool.query);
-
-export default pool;
-
-
+export default connection.promise();

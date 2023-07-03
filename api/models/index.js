@@ -1,7 +1,9 @@
-import userModel from "./user.login.model.js";
+import userModel from "./user.model.js";
+import distritoModel from "./distrito.model.js";
+import calificacionModel from "./calificaciones.model.js";
+import petModel from "./pet.model.js";
+import paseosModel from "./paseos.model.js";
+import tramiteModel from "./tramite.model.js";
 import walkerModel from "./walker.login.model.js";
 
-// import petRouter from "./pet.router.js";
-
-// export { userRouter, petRouter };
-export { userModel, walkerModel };
+export {userModel, distritoModel, calificacionModel, petModel, paseosModel, tramiteModel, walkerModel };
