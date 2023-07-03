@@ -13,7 +13,7 @@ export default  class userModel{
     }
 
     static post(id, item, status) {
-        return connection.execute(`INSERT INTO ${TableName.USER} set ${TableCodFields[TableName.USER]}=?, nombre=?, estado=?`, [id, item, status]);
+        return connection.execute(`INSERT INTO ${TableName.USER} VALUES ?`, [id, item, status]);
     }
     
     static update(id, item, status) {

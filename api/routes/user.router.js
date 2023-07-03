@@ -2,8 +2,6 @@ import express from "express";
 
 import { userController } from "../controllers/index.js";
 
-
-
 const { saludar, getAllAlumnos, postAlumnos, putAlumnos, deleteAlumnos} = userController;
 const router = express.Router();
 
