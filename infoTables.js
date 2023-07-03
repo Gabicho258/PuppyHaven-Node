@@ -19,5 +19,3 @@ const TableCodFields = {
     [TableName.TRAMITES]: 'traCod',
     [TableName.PET]: 'masCod'
 };
-
-export {TableName, TableCodFields,};
