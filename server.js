@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import { userRouter } from "./api/routes/index.js";
+import { walkerRouter } from "./api/routes/index.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", userRouter);
+app.use("/api", walkerRouter);
 
 
 const PORT = process.env.PORT || 5000;
