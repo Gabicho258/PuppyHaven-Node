@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config.js"
-import { userRouter, distritoRouter} from "./api/routes/index.js";
+import { userRouter, distritoRouter, calificacionRouter} from "./api/routes/index.js";
 import ejsMate from "ejs-mate";
 import { dirname, join } from "path";
 import bodyParser from "body-parser";
@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/api", userRouter);  
 app.use("/distrito", distritoRouter);
+app.use("/calificacion", calificacionRouter);
 
 const PORT = process.env.PORT || 5000;
 const USER = process.env.USER_DB;

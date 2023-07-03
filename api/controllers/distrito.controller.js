@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import { distritoModel } from "../models/index.js";
 
 export const getAllDistritos = async (req, res, next) => {

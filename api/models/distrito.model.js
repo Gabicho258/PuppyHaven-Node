@@ -1,7 +1,7 @@
 import connection from "../../database.js";
 import {TableName, TableCodFields } from "../../infoTables.js";
 
-export default  class userModel{
+export default  class disritoModel{
     constructor(cod, nom){
         this.cod = cod;
         this.nom = nom;
