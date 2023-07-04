@@ -23,7 +23,6 @@ export default class PaseadorModel {
       `INSERT INTO ${TableName.PASEADORES} VALUES ( "${pasNom}","${pasCor}","${pasCon}",${disCod},"${pasFotURL}",${pasFecNacAno},${pasFecNacMes},${pasFecNacDia},"${pasDes}", "${pasDis}" ,${calCod})`
     );
   }
-
   static update(pasCod, disCod, pasFotURL, pasDes, pasDis) {
     return connection.execute(
       `UPDATE ${
