@@ -1,2 +1,2 @@
 import bcrypt from "bcrypt";
-import {userRegisterModel} from "../models/index.js";
+import { UserRegisterModel } from "../models/index.js";

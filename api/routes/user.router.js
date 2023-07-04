@@ -2,21 +2,19 @@ import express from "express";
 
 import { userController } from "../controllers/index.js";
 
-const { saludar, getAllAlumnos, postAlumnos, putAlumnos, deleteAlumnos} = userController;
-const router = express.Router();
+const { register, auth, storyUser, login, logout } = userController;
 
+const router = express.Router();
 const userRoutes = {
-  SALUDAR: "/users/saludar/:name",
-  SALUDAR2: "/users/saludar2",
-  OBTENER: "/getuserModel",
-  INSERTAR: "/postuserModel",
-  EDITAR: "/putuserModel",
-  ELIMINAR: "/deleteuserModel/:id"
+  REGISTER: "/users/register",
+  LOGIN: "/users/login",
+  LOGOUT: "/users/logout",
 };
-router.post(userRoutes.SALUDAR, saludar);
-router.get(userRoutes.OBTENER, getAllAlumnos);
-router.post(userRoutes.INSERTAR, postAlumnos);
-router.put(userRoutes.EDITAR, putAlumnos);
-router.delete(userRoutes.ELIMINAR, deleteAlumnos);
+
+router.get(userRoutes.REGISTER, register);
+router.post(userRoutes.REGISTER, storyUser);
+router.get(userRoutes.LOGIN, login);
+router.post(userRoutes.LOGIN, auth);
+router.get(userRoutes.LOGOUT, logout);
 
 export default router;

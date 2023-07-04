@@ -1,14 +1,25 @@
-import userRouter from "./user.login.router.js";
-import walkerRouter from "./walker.login.routes.js"
+// import userRouter from "./user.router.js";
+// import walkerRouter from "./walker.router.js";
 
-import distritoRouter from "./distrito.router.js";
-import calificacionRouter from "./calificaciones.router.js";
-import petRouter from "./pet.router.js"
-import paseosRouter from "./paseos.router.js";
-import tramiteRouter from "./tramite.router.js";
+// import distritoRouter from "./distrito.router.js";
+// import calificacionRouter from "./calificaciones.router.js";
+// import mascotasRouter from "./mascotas.router.js";
+// import paseosRouter from "./paseos.router.js";
+// import tramiteRouter from "./tramite.router.js";
 
+// export {
+//   userRouter,
+//   distritoRouter,
+//   calificacionRouter,
+//   mascotasRouter,
+//   paseosRouter,
+//   tramiteRouter,
+//   walkerRouter,
+// };
 
-export { userRouter, distritoRouter, calificacionRouter, petRouter, paseosRouter, tramiteRouter, walkerRouter};
+// export { userRouter, MascotasRouter };
 
-// export { userRouter, petRouter };
-export { userRouter };
+import calificacionesRouter from "./calificaciones.router.js";
+import distritosRouter from "./distritos.router.js";
+
+export { calificacionesRouter, distritosRouter };

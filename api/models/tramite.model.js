@@ -1,27 +1,39 @@
 import connection from "../../database.js";
-import {TableName, TableCodFields } from "../../infoTables.js";
+import { TableName, TableCodFields } from "../../infoTables.js";
 
-export default  class calificacionModel{
-    constructor(cod, usucod, mascod, dondue){
-        this.cod = cod;
-        this.usucod = usucod;
-        this.mascod = mascod;
-        this.dondue = dondue;
-    }
+export default class TramiteModel {
+  static getAll() {
+    return connection.execute(`SELECT * FROM ${TableName.TRAMITES}`);
+  }
 
-    static fetchAll(){
-        return connection.execute(`SELECT * FROM ${TableName.TRAMITES}`)
-    }
+  static create(
+    traUsuCodAdo,
+    traUsuCodDue,
+    traFecAno,
+    traFeMes,
+    traFecDia,
+    traMasCod
+  ) {
+    return connection.execute(
+      `INSERT INTO ${TableName.TRAMITES} VALUES (${traUsuCodAdo},${traUsuCodDue} ,${traFecAno},${traFeMes}, ${traFecDia}, ${traMasCod})`
+    );
+  }
 
-    static post(cod, usucod, mascod, dondue) {
-        return connection.execute(`INSERT INTO ${TableName.TRAMITES} VALUES (?,?,?)`, [cod, usucod, mascod, dondue]);
-    }
-    
-    static update(cod, usucod, mascod, dondue) {
-        return connection.execute(`UPDATE ${TableName.TRAMITES} set calMeGus=?, calNoGus=? WHERE  ${TableCodFields[TableName.TRAMITES]}= ?`, [usucod, mascod, dondue, cod]);
-    }
-    
-    static delete(cod) {
-        return connection.execute(`DELETE FROM ${TableName.TRAMITES} WHERE ${TableCodFields[TableName.TRAMITES]}=?`, [cod]);
-    }
-};
+  static getTramitePorCod(traCod) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.TRAMITES} WHERE TraCod=${traCod}`
+    );
+  }
+
+  static getTramitePorUsuarioDueñoCod(traUsuCodDue) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodDue=${traUsuCodDue}`
+    );
+  }
+
+  static getTramitePorUsuarioPaseadorCod(traUsuCodAdo) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodAdo=${traUsuCodAdo}`
+    );
+  }
+}

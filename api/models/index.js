@@ -1,9 +1,17 @@
-import userModel from "./user.model.js";
-import distritoModel from "./distrito.model.js";
-import calificacionModel from "./calificaciones.model.js";
-import petModel from "./pet.model.js";
-import paseosModel from "./paseos.model.js";
-import tramiteModel from "./tramite.model.js";
-import walkerModel from "./walker.login.model.js";
+import CalificacionModel from "./calificaciones.model.js";
+import DistritoModel from "./distrito.model.js";
+import MascotasModel from "./mascotas.model.js";
+import PaseadorModel from "./paseador.model.js";
+import PaseosModel from "./paseos.model.js";
+import TramiteModel from "./tramite.model.js";
+import UsuarioModel from "./usuario.model.js";
 
-export {userModel, distritoModel, calificacionModel, petModel, paseosModel, tramiteModel, walkerModel };
+export {
+  UsuarioModel,
+  DistritoModel,
+  CalificacionModel,
+  MascotasModel,
+  PaseosModel,
+  TramiteModel,
+  PaseadorModel,
+};

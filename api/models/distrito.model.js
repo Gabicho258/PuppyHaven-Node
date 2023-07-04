@@ -1,25 +1,27 @@
 import connection from "../../database.js";
-import {TableName, TableCodFields } from "../../infoTables.js";
+import { TableName, TableCodFields } from "../../infoTables.js";
 
-export default  class disritoModel{
-    constructor(cod, nom){
-        this.cod = cod;
-        this.nom = nom;
-    }
+export default class DistritoModel {
+  static getAll() {
+    return connection.execute(`SELECT * FROM ${TableName.DISTRITOS}`);
+  }
 
-    static fetchAll(){
-        return connection.execute(`SELECT * FROM ${TableName.DISTRITOS}`)
-    }
+  static create(disNom) {
+    return connection.execute(
+      `INSERT INTO ${TableName.DISTRITOS} VALUES(9, "${disNom}")`
+    );
+  }
 
-    static post(cod, nom) {
-        return connection.execute(`INSERT INTO ${TableName.DISTRITOS} VALUES (?,?)`, [cod, nom]);
-    }
-    
-    static update(cod, nom) {
-        return connection.execute(`UPDATE ${TableName.DISTRITOS} set DisNom=? WHERE  ${TableCodFields[TableName.DISTRITOS]}= ?`, [nom, cod]);
-    }
-    
-    static delete(cod) {
-        return connection.execute(`DELETE FROM ${TableName.DISTRITOS} WHERE ${TableCodFields[TableName.DISTRITOS]}=?`, [cod]);
-    }
-};
+  static update(disCod, disNom) {
+    return connection.execute(
+      `UPDATE ${TableName.DISTRITOS} set DisNom="${disNom}" WHERE  ${
+        TableCodFields[TableName.DISTRITOS]
+      }= ${disCod}`
+    );
+  }
+  static getDistritoPorCod(disCod) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.DISTRITOS} WHERE DisCod=${disCod}`
+    );
+  }
+}

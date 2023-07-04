@@ -1,49 +1,52 @@
-import { calificacionModel } from "../models/index.js";
+import { CalificacionModel } from "../models/index.js";
 
-export const getAllCalificaciones = async (req, res, next) => {
-  try{
-    const [allCalificaciones] = await calificacionModel.fetchAll();
+export const getAllCalificaciones = async (req, res) => {
+  try {
+    const [allCalificaciones] = await CalificacionModel.getAll();
     res.status(200).json(allCalificaciones);
-  } catch (err){
-      if(!err.statusCode){
-        err.statusCode = 500
-      }
-      next(err);
-  }
-};
-
-export const postCalificaciones = async (req, res, next) => {
-  try {
-    const postResponse = await calificacionModel.post(req.body.code, req.body.like, req.body.dislike);
-    res.status(201).json(postResponse);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const putCalificaciones = async (req, res, next) => {
+export const createCalificaciones = async (req, res) => {
   try {
-    const putResponse = await calificacionModel.update(req.body.code, req.body.like, req.body.dislike);
+    const { calMeGus, calNoGus } = req.body;
+    const [{ insertId: calCod }] = await CalificacionModel.create(
+      calMeGus,
+      calNoGus
+    );
+    const [calificacion] = await CalificacionModel.getCalificacionesPorCod(
+      calCod
+    );
+    res.status(201).json(calificacion);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
+
+export const editCalificaciones = async (req, res) => {
+  try {
+    const { calCod, calMeGus, calNoGus } = req.body;
+    const putResponse = await CalificacionModel.update(
+      calCod,
+      calMeGus,
+      calNoGus
+    );
     res.status(200).json(putResponse);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const deleteCalificaciones = async (req, res, next) => {
+export const obtenerCalificacionesPorCod = async (req, res) => {
   try {
-    const deleteResponse = await calificacionModel.delete(req.params.id);
-    res.status(200).json(deleteResponse);
+    const { id: calCod } = req.params;
+    const [calificacion] = await CalificacionModel.getCalificacionesPorCod(
+      calCod
+    );
+    res.status(200).json(calificacion);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };

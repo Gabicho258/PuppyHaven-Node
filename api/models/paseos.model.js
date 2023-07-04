@@ -1,28 +1,47 @@
 import connection from "../../database.js";
-import {TableName, TableCodFields } from "../../infoTables.js";
+import { TableName, TableCodFields } from "../../infoTables.js";
 
-export default  class paseosModel{
-    constructor(num, pascod, usucod, dir, pet){
-        this.num = num;
-        this.pascod = pascod;
-        this.usucod = usucod;
-        this.dir = dir;
-        this.pet = pet;
-    }
+export default class PaseosModel {
+  static getAll() {
+    return connection.execute(`SELECT * FROM ${TableName.PASEOS}`);
+  }
 
-    static fetchAll(){
-        return connection.execute(`SELECT * FROM ${TableName.PASEOS}`)
-    }
+  static create(pasCod, useCod, pasDir, masCod, pasEst = "P") {
+    return connection.execute(
+      `INSERT INTO ${TableName.PASEOS} VALUES (${pasCod},${useCod},"${pasDir}",${masCod},"${pasEst}")`
+    );
+  }
 
-    static post(num, pascod, usucod, dir, pet) {
-        return connection.execute(`INSERT INTO ${TableName.PASEOS} VALUES (?,?,?,?,?)`, [num, pascod, usucod, dir, pet]);
-    }
-    
-    static update(num, pascod, usucod, dir, pet) {
-        return connection.execute(`UPDATE ${TableName.PASEOS} set pasCod=?, usuCod=?, pasDir=?, masCod=?  WHERE  ${TableCodFields[TableName.PASEOS]}= ?`, [pascod, usucod, dir, pet, num]);
-    }
-    
-    static delete(num) {
-        return connection.execute(`DELETE FROM ${TableName.PASEOS} WHERE ${TableCodFields[TableName.PASEOS]}=?`, [num]);
-    }
-};
+  static update(pasNum, pasDir, masCod, pasEst) {
+    return connection.execute(
+      `UPDATE ${
+        TableName.PASEOS
+      } set PasDir="${pasDir}", MasCod=${masCod}, PasEst="${pasEst}"  WHERE  ${
+        TableCodFields[TableName.PASEOS]
+      }= ${pasNum}`
+    );
+  }
+
+  static delete(pasNum) {
+    return connection.execute(
+      `DELETE FROM ${TableName.PASEOS} WHERE ${
+        TableCodFields[TableName.PASEOS]
+      }=${pasNum}`
+    );
+  }
+  static getPaseosPorUsuarioCod(usuCod) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.PASEOS} WHERE UsuCod=${usuCod}`
+    );
+  }
+  static getPaseosPorPaseadorCod(pasCod) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.PASEOS} WHERE PasCod=${pasCod}`
+    );
+  }
+  static getPaseoPorNum(pasNum) {
+    return connection.execute(
+      `SELECT * FROM ${TableName.PASEOS} WHERE PasNum=${pasNum}`
+    );
+  }
+}
