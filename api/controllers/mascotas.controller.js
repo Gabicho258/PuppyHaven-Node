@@ -1,65 +1,103 @@
 import { MascotasModel } from "../models/index.js";
 
-export const getAllMascotas = async (req, res, next) => {
+export const getAllMascotas = async (req, res) => {
   try {
     const [allMascotas] = await MascotasModel.getAll();
     res.status(200).json(allMascotas);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const postMascota = async (req, res, next) => {
+export const createMascota = async (req, res) => {
+  const {
+    masNom,
+    masCol,
+    masRaz,
+    masEda,
+    masFotURL,
+    masDes,
+    masIsToAdo,
+    masUsuCod,
+  } = req.body;
   try {
-    const postResponse = await MascotasModel.create(
-      req.body.code,
-      req.body.name,
-      req.body.color,
-      req.body.raza,
-      req.body.age,
-      req.body.img,
-      req.body.other
+    const [{ insertId: masCod }] = await MascotasModel.create(
+      masNom,
+      masCol,
+      masRaz,
+      masEda,
+      masFotURL,
+      masDes,
+      masIsToAdo,
+      masUsuCod
     );
-    res.status(201).json(postResponse);
+    const [mascota] = await MascotasModel.getMascotaPorCod(masCod);
+    res.status(201).json(mascota);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const putMascota = async (req, res, next) => {
+export const editMascota = async (req, res) => {
+  const {
+    masCod,
+    masNom,
+    masCol,
+    masRaz,
+    masEda,
+    masFotURL,
+    masDes,
+    masIsToAdo,
+    masUsuCod,
+  } = req.body;
   try {
-    const putResponse = await MascotasModel.update(
-      req.body.code,
-      req.body.name,
-      req.body.color,
-      req.body.raza,
-      req.body.age,
-      req.body.img,
-      req.body.other
+    const updateResponse = await MascotasModel.update(
+      masCod,
+      masNom,
+      masCol,
+      masRaz,
+      masEda,
+      masFotURL,
+      masDes,
+      masIsToAdo,
+      masUsuCod
     );
-    res.status(200).json(putResponse);
+    res
+      .status(200)
+      .json({ message: "Mascota editada correctamente", updateResponse });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const deleteMascota = async (req, res, next) => {
+export const deleteMascota = async (req, res) => {
+  const { id: masCod } = req.params;
   try {
-    const deleteResponse = await MascotasModel.delete(req.params.id);
-    res.status(200).json(deleteResponse);
+    const deleteResponse = await MascotasModel.delete(masCod);
+    res
+      .status(200)
+      .json({ message: "Mascota eliminada correctamente", deleteResponse });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
+  }
+};
+
+export const obtenerMascotaPorCod = async (req, res) => {
+  try {
+    const { id: masCod } = req.params;
+    const [mascota] = await MascotasModel.getMascotaPorCod(masCod);
+    res.status(200).json(mascota);
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
+
+export const obtenerMascotasPorUsuCod = async (req, res) => {
+  try {
+    const { id: usuCod } = req.params;
+    const [mascotas] = await MascotasModel.getMascotasPorUserCod(usuCod);
+    res.status(200).json(mascotas);
+  } catch (err) {
+    res.status(500).json({ error: err });
   }
 };

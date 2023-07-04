@@ -10,12 +10,12 @@ export default class TramiteModel {
     traUsuCodAdo,
     traUsuCodDue,
     traFecAno,
-    traFeMes,
+    traFecMes,
     traFecDia,
     traMasCod
   ) {
     return connection.execute(
-      `INSERT INTO ${TableName.TRAMITES} VALUES (${traUsuCodAdo},${traUsuCodDue} ,${traFecAno},${traFeMes}, ${traFecDia}, ${traMasCod})`
+      `INSERT INTO ${TableName.TRAMITES} (TraUsuCodAdo, TraUsuCodDue, TraFecAno, TraFecMes, TraFecDia, TraMasCod ) VALUES (${traUsuCodAdo},${traUsuCodDue} ,${traFecAno},${traFecMes}, ${traFecDia}, ${traMasCod})`
     );
   }
 
@@ -25,13 +25,13 @@ export default class TramiteModel {
     );
   }
 
-  static getTramitePorUsuarioDueñoCod(traUsuCodDue) {
+  static getTramitePorUsuarioDuenoCod(traUsuCodDue) {
     return connection.execute(
       `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodDue=${traUsuCodDue}`
     );
   }
 
-  static getTramitePorUsuarioPaseadorCod(traUsuCodAdo) {
+  static getTramitePorUsuarioAdopterCod(traUsuCodAdo) {
     return connection.execute(
       `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodAdo=${traUsuCodAdo}`
     );

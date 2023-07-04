@@ -1,59 +1,69 @@
 import { TramiteModel } from "../models/index.js";
 
-export const getAllTramite = async (req, res, next) => {
+export const getAllTramite = async (req, res) => {
   try {
     const [allTramites] = await TramiteModel.getAll();
     res.status(200).json(allTramites);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const postTramite = async (req, res, next) => {
+export const createTramite = async (req, res) => {
+  const {
+    traUsuCodAdo,
+    traUsuCodDue,
+    traFecAno,
+    traFeMes,
+    traFecDia,
+    traMasCod,
+  } = req.body;
   try {
-    const postResponse = await TramiteModel.create(
-      req.body.code,
-      req.body.usecod,
-      req.body.mascod,
-      req.body.dondue
+    const [{ insertId: traCod }] = await TramiteModel.create(
+      traUsuCodAdo,
+      traUsuCodDue,
+      traFecAno,
+      traFeMes,
+      traFecDia,
+      traMasCod
     );
-    res.status(201).json(postResponse);
+    const [tramite] = await TramiteModel.getTramitePorCod(traCod);
+    res.status(201).json(tramite);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const putTramite = async (req, res, next) => {
+export const obtenerTramitePorAdopter = async (req, res) => {
   try {
-    const putResponse = await TramiteModel.create(
-      req.body.code,
-      req.body.usecod,
-      req.body.mascod,
-      req.body.dondue
+    const { id: traUsuCodAdo } = req.params;
+    const [tramites] = await TramiteModel.getTramitePorUsuarioAdopterCod(
+      traUsuCodAdo
     );
-    res.status(200).json(putResponse);
+    res.status(200).json(tramites);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
   }
 };
 
-export const deleteTramite = async (req, res, next) => {
+export const obtenerTramitePorDueno = async (req, res) => {
   try {
-    const deleteResponse = await TramiteModel.delete(req.params.id);
-    res.status(200).json(deleteResponse);
+    const { id: traUsuCodDue } = req.params;
+    const [tramites] = await TramiteModel.getTramitePorUsuarioDuenoCod(
+      traUsuCodDue
+    );
+    res.status(200).json(tramites);
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
+    res.status(500).json({ error: err });
+  }
+};
+
+export const obtenerTramitePorCod = async (req, res) => {
+  try {
+    const { id: traCod } = req.params;
+    const [tramite] = await TramiteModel.getTramitePorCod(traCod);
+    res.status(200).json(tramite);
+  } catch (err) {
+    res.status(500).json({ error: err });
   }
 };

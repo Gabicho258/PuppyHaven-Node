@@ -8,7 +8,7 @@ export default class PaseosModel {
 
   static create(pasCod, useCod, pasDir, masCod, pasEst = "P") {
     return connection.execute(
-      `INSERT INTO ${TableName.PASEOS} VALUES (${pasCod},${useCod},"${pasDir}",${masCod},"${pasEst}")`
+      `INSERT INTO ${TableName.PASEOS} (PasCod, UseCod, PasDir, MasCod, PasEst) VALUES (${pasCod},${useCod},"${pasDir}",${masCod},"${pasEst}")`
     );
   }
 

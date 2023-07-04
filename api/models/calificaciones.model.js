@@ -8,7 +8,7 @@ export default class CalificacionModel {
 
   static create(calMeGus, calNoGus) {
     return connection.execute(
-      `INSERT INTO ${TableName.CALIFICACIONES} VALUES (${calMeGus},${calNoGus})`
+      `INSERT INTO ${TableName.CALIFICACIONES} (CalMeGus, CalNoGus) VALUES (${calMeGus},${calNoGus})`
     );
   }
 

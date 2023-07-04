@@ -1,20 +1,31 @@
 import express from "express";
 
-// import { walkerController } from "../controllers/index.js";
+import { walkerController } from "../controllers/index.js";
 
-// const { register, auth, storyUser, login, logout } = walkerController;
+const {
+  getAllWalkers,
+  createWalker,
+  editWalker,
+  deleteWalker,
+  obtenerWalkerPorCod,
+  login,
+} = walkerController;
 
 const router = express.Router();
 const walkerRoutes = {
-  REGISTER: "/walkers/register",
+  GET_ALL: "/walkers/",
+  CREATE: "/walkers/create",
+  UPDATE: "/walkers/update",
+  DELETE: "/walkers/delete/:id",
+  GET_BY_CODE: "/walkers/:id",
   LOGIN: "/walkers/login",
-  LOGOUT: "/walkers/logout",
 };
 
-// router.get(walkerRoutes.REGISTER, register);
-// router.post(walkerRoutes.REGISTER, storyUser);
-// router.get(walkerRoutes.LOGIN, login);
-// router.post(walkerRoutes.LOGIN, auth);
-// router.get(walkerRoutes.LOGOUT, logout);
+router.get(walkerRoutes.GET_ALL, getAllWalkers);
+router.post(walkerRoutes.CREATE, createWalker);
+router.put(walkerRoutes.UPDATE, editWalker);
+router.delete(walkerRoutes.DELETE, deleteWalker);
+router.get(walkerRoutes.GET_BY_CODE, obtenerWalkerPorCod);
+router.post(walkerRoutes.LOGIN, login);
 
 export default router;

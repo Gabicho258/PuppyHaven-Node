@@ -17,7 +17,7 @@ export default class MascotasModel {
     masUsuCod
   ) {
     return connection.execute(
-      `INSERT INTO ${TableName.MASCOTAS} VALUES ("${masNom}", "${masCol}", "${masRaz}", ${masEda}, "${masFotURL}", "${masDes}", ${masIsToAdo}, ${masUsuCod})`
+      `INSERT INTO ${TableName.MASCOTAS}(MasNom, MasCol, MasRaz, MasEda, MasFotURL, MasDes, MasIsToAdo, MasUsuCod) VALUES ("${masNom}", "${masCol}", "${masRaz}", ${masEda}, "${masFotURL}", "${masDes}", ${masIsToAdo}, ${masUsuCod})`
     );
   }
 

@@ -17,7 +17,7 @@ export default class UsuarioModel {
     usuFecNacDia
   ) {
     return connection.execute(
-      `INSERT INTO ${TableName.USER} VALUES ( "${usuNom}","${usuCor}","${usuCon}",${disCod},"${usuFotURL}",${usuFecNacAno},${usuFecNacMes},${usuFecNacDia})`
+      `INSERT INTO ${TableName.USER} (UsuNom, UsuCor, UsuCon, DisCod, UsuFotURL, UsuFecNacAno, UsuFecNacMes, UsuFecNacDia) VALUES ( "${usuNom}","${usuCor}","${usuCon}",${disCod},"${usuFotURL}",${usuFecNacAno},${usuFecNacMes},${usuFecNacDia})`
     );
   }
 

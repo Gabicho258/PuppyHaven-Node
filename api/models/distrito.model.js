@@ -8,7 +8,7 @@ export default class DistritoModel {
 
   static create(disNom) {
     return connection.execute(
-      `INSERT INTO ${TableName.DISTRITOS} VALUES(9, "${disNom}")`
+      `INSERT INTO ${TableName.DISTRITOS} (DisNom) VALUES("${disNom}")`
     );
   }
 

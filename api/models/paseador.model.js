@@ -20,7 +20,7 @@ export default class PaseadorModel {
     calCod
   ) {
     return connection.execute(
-      `INSERT INTO ${TableName.PASEADORES} VALUES ( "${pasNom}","${pasCor}","${pasCon}",${disCod},"${pasFotURL}",${pasFecNacAno},${pasFecNacMes},${pasFecNacDia},"${pasDes}", "${pasDis}" ,${calCod})`
+      `INSERT INTO ${TableName.PASEADORES} (PasNom, PasCor, PasCon, DisCod, PasFotURL, PasFecNacAno, PasFecNacMes, PasFecNacDia, PasDes, PasDis, CalCod) VALUES ( "${pasNom}","${pasCor}","${pasCon}",${disCod},"${pasFotURL}",${pasFecNacAno},${pasFecNacMes},${pasFecNacDia},"${pasDes}", "${pasDis}" ,${calCod})`
     );
   }
   static update(pasCod, disCod, pasFotURL, pasDes, pasDis) {

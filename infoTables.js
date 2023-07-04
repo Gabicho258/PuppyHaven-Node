@@ -1,6 +1,5 @@
 export const TableName = {
-  USER: "alumno",
-  USERFINAL: "USUARIOS",
+  USER: "USUARIOS",
   DISTRITOS: "DISTRITOS",
   TRAMITES: "TRAMITES",
   PASEOS: "PASEOS",
