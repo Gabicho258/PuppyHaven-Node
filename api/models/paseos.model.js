@@ -6,9 +6,9 @@ export default class PaseosModel {
     return connection.execute(`SELECT * FROM ${TableName.PASEOS}`);
   }
 
-  static create(pasCod, useCod, pasDir, masCod, pasEst = "P") {
+  static create(pasCod, usuCod, pasDir, masCod, pasEst = "P") {
     return connection.execute(
-      `INSERT INTO ${TableName.PASEOS} (PasCod, UseCod, PasDir, MasCod, PasEst) VALUES (${pasCod},${useCod},"${pasDir}",${masCod},"${pasEst}")`
+      `INSERT INTO ${TableName.PASEOS} (PasCod, UsuCod, PasDir, MasCod, PasEst) VALUES (${pasCod},${usuCod},"${pasDir}",${masCod},"${pasEst}")`
     );
   }
 
