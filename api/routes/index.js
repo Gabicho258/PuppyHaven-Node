@@ -24,6 +24,7 @@ import paseosRouter from "./paseos.router.js";
 import tramitesRouter from "./tramites.router.js";
 import userRouter from "./user.router.js";
 import walkerRouter from "./walker.router.js";
+import comentariosRouter from "./comentarios.router.js";
 
 export {
   calificacionesRouter,
@@ -33,4 +34,5 @@ export {
   tramitesRouter,
   userRouter,
   walkerRouter,
+  comentariosRouter,
 };

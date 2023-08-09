@@ -9,6 +9,7 @@ import {
   paseosRouter,
   userRouter,
   walkerRouter,
+  comentariosRouter,
 } from "./api/routes/index.js";
 // import {
 //   userRouter,
@@ -45,6 +46,7 @@ app.use("/api", paseosRouter);
 app.use("/api", tramitesRouter);
 app.use("/api", userRouter);
 app.use("/api", walkerRouter);
+app.use("/api", comentariosRouter);
 
 const PORT = process.env.PORT || 5000;
 // const USER = process.env.USER_DB;

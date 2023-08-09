@@ -5,6 +5,7 @@ import PaseadorModel from "./paseador.model.js";
 import PaseosModel from "./paseos.model.js";
 import TramiteModel from "./tramite.model.js";
 import UsuarioModel from "./usuario.model.js";
+import ComentariosModel from "./comentarios.model.js";
 
 export {
   UsuarioModel,
@@ -14,4 +15,5 @@ export {
   PaseosModel,
   TramiteModel,
   PaseadorModel,
+  ComentariosModel,
 };

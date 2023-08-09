@@ -6,6 +6,7 @@ import * as paseosController from "./paseos.controller.js";
 import * as tramiteController from "./tramite.controller.js";
 import * as calificacionesController from "./calificaciones.controller.js";
 import * as walkerController from "./walker.controller.js";
+import * as comentariosController from "./comentarios.controller.js";
 export {
   calificacionesController,
   distritosController,
@@ -14,4 +15,5 @@ export {
   paseosController,
   userController,
   walkerController,
+  comentariosController,
 };

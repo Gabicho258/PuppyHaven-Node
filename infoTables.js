@@ -7,6 +7,7 @@ export const TableName = {
   CALIFICACIONES: "CALIFICACIONES",
   MASCOTAS: "MASCOTAS",
   PASEOS_MASCOTAS: "PASEOS_MASCOTAS",
+  COMENTARIOS: "COMENTARIOS",
 };
 
 export const TableCodFields = {
