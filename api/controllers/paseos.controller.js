@@ -2,7 +2,7 @@ import { PaseosModel } from "../models/index.js";
 
 export const getAllPaseos = async (req, res) => {
   try {
-    const [allPaseos] = await PaseosModel.getAll();
+    const allPaseos = await PaseosModel.getAll();
     res.status(200).json(allPaseos);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -10,17 +10,36 @@ export const getAllPaseos = async (req, res) => {
 };
 
 export const createPaseos = async (req, res) => {
-  const { pasCod, usuCod, pasDir, masCod, pasEst } = req.body;
+  const {
+    pasCod,
+    usuCod,
+    pasDis,
+    pasDir,
+    pasFecAno,
+    pasFecMes,
+    pasFecDia,
+    pasHor,
+    pasCanHor,
+    pasEst = "P",
+    mascotas,
+  } = req.body;
   try {
-    const [{ insertId: pasNum }] = await PaseosModel.create(
+    const { insertId: pasNum } = await PaseosModel.create(
       pasCod,
       usuCod,
+      pasDis,
       pasDir,
-      masCod,
-      pasEst
+      pasFecAno,
+      pasFecMes,
+      pasFecDia,
+      pasHor,
+      pasCanHor,
+      pasEst,
+      mascotas
     );
 
     const [paseo] = await PaseosModel.getPaseoPorNum(pasNum);
+
     res.status(201).json(paseo);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -30,12 +49,7 @@ export const createPaseos = async (req, res) => {
 export const editPaseos = async (req, res) => {
   const { pasNum, pasDir, masCod, pasEst } = req.body;
   try {
-    const updateResponse = await PaseosModel.update(
-      pasNum,
-      pasDir,
-      masCod,
-      pasEst
-    );
+    const updateResponse = await PaseosModel.update(pasNum, pasEst);
     res
       .status(200)
       .json({ message: "Paseo editado correctamente", updateResponse });
@@ -58,7 +72,7 @@ export const deletePaseos = async (req, res) => {
 export const obtenerPaseosPorPasCod = async (req, res) => {
   try {
     const { id: pasCod } = req.params;
-    const [paseos] = await PaseosModel.getPaseosPorPaseadorCod(pasCod);
+    const paseos = await PaseosModel.getPaseosPorPaseadorCod(pasCod);
     res.status(200).json(paseos);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -68,7 +82,7 @@ export const obtenerPaseosPorPasCod = async (req, res) => {
 export const obtenerPaseosPorUsuCod = async (req, res) => {
   try {
     const { id: usuCod } = req.params;
-    const [paseos] = await PaseosModel.getPaseosPorUsuarioCod(usuCod);
+    const paseos = await PaseosModel.getPaseosPorUsuarioCod(usuCod);
     res.status(200).json(paseos);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -78,7 +92,7 @@ export const obtenerPaseosPorUsuCod = async (req, res) => {
 export const obtenerPaseoPorPasNum = async (req, res) => {
   try {
     const { id: pasNum } = req.params;
-    const [paseo] = await PaseosModel.getPaseoPorNum(pasNum);
+    const paseo = await PaseosModel.getPaseoPorNum(pasNum);
     res.status(200).json(paseo);
   } catch (err) {
     res.status(500).json({ error: err });
