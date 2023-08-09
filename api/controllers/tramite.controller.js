@@ -37,7 +37,7 @@ export const createTramite = async (req, res) => {
 export const obtenerTramitePorAdopter = async (req, res) => {
   try {
     const { id: traUsuCodAdo } = req.params;
-    const [tramites] = await TramiteModel.getTramitePorUsuarioAdopterCod(
+    const tramites = await TramiteModel.getTramitePorUsuarioAdopterCod(
       traUsuCodAdo
     );
     res.status(200).json(tramites);

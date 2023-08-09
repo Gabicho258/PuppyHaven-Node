@@ -15,7 +15,7 @@ export default class TramiteModel {
     traMasCod
   ) {
     return connection.execute(
-      `INSERT INTO ${TableName.TRAMITES} (TraUsuCodAdo, TraUsuCodDue, TraFecAno, TraFecMes, TraFecDia, TraMasCod ) VALUES (${traUsuCodAdo},${traUsuCodDue} ,${traFecAno},${traFecMes}, ${traFecDia}, ${traMasCod})`
+      `INSERT INTO ${TableName.TRAMITES} (TraUsuCodAdo, TraUsuCodDue, TraFecAno, TraFecMes, TraFecDia, TraMasCod,TraEst ) VALUES (${traUsuCodAdo},${traUsuCodDue} ,${traFecAno},${traFecMes}, ${traFecDia}, ${traMasCod},"P")`
     );
   }
 
@@ -31,9 +31,31 @@ export default class TramiteModel {
     );
   }
 
-  static getTramitePorUsuarioAdopterCod(traUsuCodAdo) {
-    return connection.execute(
-      `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodAdo=${traUsuCodAdo}`
+  static async getTramitePorUsuarioAdopterCod(traUsuCodAdo) {
+    const [tramites] = await connection.execute(
+      `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodAdo=${traUsuCodAdo} OR TraUsuCodDue=${traUsuCodAdo}`
     );
+    const [usuarios] = await connection.execute(
+      `SELECT * FROM ${TableName.USER}`
+    );
+    const [mascotas] = await connection.execute(
+      `SELECT * FROM ${TableName.MASCOTAS}`
+    );
+    const result = tramites.map((tramite) => {
+      return {
+        ...tramite,
+        adoptador: usuarios.find(
+          (usuario) => usuario.UsuCod === tramite.TraUsuCodAdo
+        ),
+        owner: usuarios.find(
+          (usuario) => usuario.UsuCod === tramite.TraUsuCodDue
+        ),
+        mascota: mascotas.find(
+          (mascota) => mascota.MasCod === tramite.TraMasCod
+        ),
+      };
+    });
+    // const []
+    return result;
   }
 }
