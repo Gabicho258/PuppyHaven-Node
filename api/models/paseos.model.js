@@ -2,46 +2,118 @@ import connection from "../../database.js";
 import { TableName, TableCodFields } from "../../infoTables.js";
 
 export default class PaseosModel {
-  static getAll() {
-    return connection.execute(`SELECT * FROM ${TableName.PASEOS}`);
-  }
-
-  static create(pasCod, usuCod, pasDir, masCod, pasEst = "P") {
-    return connection.execute(
-      `INSERT INTO ${TableName.PASEOS} (PasCod, UsuCod, PasDir, MasCod, PasEst) VALUES (${pasCod},${usuCod},"${pasDir}",${masCod},"${pasEst}")`
+  static async getAll() {
+    const [paseos] = await connection.execute(
+      `SELECT * FROM ${TableName.PASEOS}`
     );
+    const [temp] = await connection.execute(
+      `SELECT MASCOTAS.MasCod,PasNum, MasNom,MasCol,MasRaz,MasEda,MasFotURL,MasDes,MasIsToAdo,MasUsuCod FROM ${TableName.PASEOS_MASCOTAS} JOIN ${TableName.MASCOTAS} ON ${TableName.PASEOS_MASCOTAS}.MasCod = ${TableName.MASCOTAS}.MasCod`
+    );
+
+    const result = paseos.map((paseo, i) => {
+      return {
+        ...paseo,
+        mascotas: temp.filter(
+          (paseo_mascota) => paseo_mascota.PasNum === paseo.PasNum
+        ),
+      };
+    });
+    return result;
   }
 
-  static update(pasNum, pasDir, masCod, pasEst) {
+  static async create(
+    pasCod,
+    usuCod,
+    pasDis,
+    pasDir,
+    pasFecAno,
+    pasFecMes,
+    pasFecDia,
+    pasHor,
+    pasCanHor,
+    pasEst = "P",
+    mascotas
+  ) {
+    const [paseo] = await connection.execute(
+      `INSERT INTO ${TableName.PASEOS} (PasCod,UsuCod,PasDis,PasDir,PasFecAno,PasFecMes,PasFecDia,PasHor,PasCanHor,PasEst) VALUES (${pasCod},${usuCod},"${pasDis}","${pasDir}", ${pasFecAno},${pasFecMes},${pasFecDia},"${pasHor}",${pasCanHor},"${pasEst}")`
+    );
+    mascotas.forEach(async (masID) => {
+      await connection.execute(
+        `INSERT INTO ${TableName.PASEOS_MASCOTAS} (PasNum,MasCod) VALUES (${paseo.insertId},${masID})`
+      );
+    });
+    return paseo;
+  }
+
+  static update(pasNum, pasEst) {
     return connection.execute(
-      `UPDATE ${
-        TableName.PASEOS
-      } set PasDir="${pasDir}", MasCod=${masCod}, PasEst="${pasEst}"  WHERE  ${
+      `UPDATE ${TableName.PASEOS} set PasEst="${pasEst}"  WHERE  ${
         TableCodFields[TableName.PASEOS]
       }= ${pasNum}`
     );
   }
 
-  static delete(pasNum) {
-    return connection.execute(
+  static async delete(pasNum) {
+    await connection.execute(
       `DELETE FROM ${TableName.PASEOS} WHERE ${
         TableCodFields[TableName.PASEOS]
       }=${pasNum}`
     );
+    await connection.execute(
+      `DELETE FROM ${TableName.PASEOS_MASCOTAS} WHERE PasNum=${pasNum}`
+    );
+    return;
   }
-  static getPaseosPorUsuarioCod(usuCod) {
-    return connection.execute(
+
+  static async getPaseosPorUsuarioCod(usuCod) {
+    const [paseos] = await connection.execute(
       `SELECT * FROM ${TableName.PASEOS} WHERE UsuCod=${usuCod}`
     );
+    const [temp] = await connection.execute(
+      `SELECT MASCOTAS.MasCod,PasNum, MasNom,MasCol,MasRaz,MasEda,MasFotURL,MasDes,MasIsToAdo,MasUsuCod FROM ${TableName.PASEOS_MASCOTAS} JOIN ${TableName.MASCOTAS} ON ${TableName.PASEOS_MASCOTAS}.MasCod = ${TableName.MASCOTAS}.MasCod`
+    );
+    const result = paseos.map((paseo, i) => {
+      return {
+        ...paseo,
+        mascotas: temp.filter(
+          (paseo_mascota) => paseo_mascota.PasNum === paseo.PasNum
+        ),
+      };
+    });
+    return result;
   }
-  static getPaseosPorPaseadorCod(pasCod) {
-    return connection.execute(
+  static async getPaseosPorPaseadorCod(pasCod) {
+    const [paseos] = await connection.execute(
       `SELECT * FROM ${TableName.PASEOS} WHERE PasCod=${pasCod}`
     );
+    const [temp] = await connection.execute(
+      `SELECT MASCOTAS.MasCod,PasNum, MasNom,MasCol,MasRaz,MasEda,MasFotURL,MasDes,MasIsToAdo,MasUsuCod FROM ${TableName.PASEOS_MASCOTAS} JOIN ${TableName.MASCOTAS} ON ${TableName.PASEOS_MASCOTAS}.MasCod = ${TableName.MASCOTAS}.MasCod`
+    );
+    const result = paseos.map((paseo, i) => {
+      return {
+        ...paseo,
+        mascotas: temp.filter(
+          (paseo_mascota) => paseo_mascota.PasNum === paseo.PasNum
+        ),
+      };
+    });
+    return result;
   }
-  static getPaseoPorNum(pasNum) {
-    return connection.execute(
+  static async getPaseoPorNum(pasNum) {
+    const [paseos] = await connection.execute(
       `SELECT * FROM ${TableName.PASEOS} WHERE PasNum=${pasNum}`
     );
+    const [temp] = await connection.execute(
+      `SELECT MASCOTAS.MasCod,PasNum, MasNom,MasCol,MasRaz,MasEda,MasFotURL,MasDes,MasIsToAdo,MasUsuCod FROM ${TableName.PASEOS_MASCOTAS} JOIN ${TableName.MASCOTAS} ON ${TableName.PASEOS_MASCOTAS}.MasCod = ${TableName.MASCOTAS}.MasCod`
+    );
+    const result = paseos.map((paseo, i) => {
+      return {
+        ...paseo,
+        mascotas: temp.filter(
+          (paseo_mascota) => paseo_mascota.PasNum === paseo.PasNum
+        ),
+      };
+    });
+    return result;
   }
 }
