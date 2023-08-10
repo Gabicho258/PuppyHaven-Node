@@ -57,6 +57,17 @@ export const obtenerTramitePorDueno = async (req, res) => {
     res.status(500).json({ error: err });
   }
 };
+export const updateTramitePorCod = async (req, res) => {
+  try {
+    const { traCod, traEst } = req.body;
+    const updateResponse = await TramiteModel.updateTramite(traCod, traEst);
+    res
+      .status(200)
+      .json({ message: "Tramite editado correctamente", updateResponse });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
 
 export const obtenerTramitePorCod = async (req, res) => {
   try {

@@ -31,6 +31,12 @@ export default class TramiteModel {
     );
   }
 
+  static updateTramite(traCod, traEst) {
+    return connection.execute(
+      `UPDATE ${TableName.TRAMITES} SET TraEst="${traEst}" WHERE TraCod=${traCod}`
+    );
+  }
+
   static async getTramitePorUsuarioAdopterCod(traUsuCodAdo) {
     const [tramites] = await connection.execute(
       `SELECT * FROM ${TableName.TRAMITES} WHERE TraUsuCodAdo=${traUsuCodAdo} OR TraUsuCodDue=${traUsuCodAdo}`
