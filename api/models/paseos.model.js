@@ -67,7 +67,7 @@ export default class PaseosModel {
 
   static async getPaseosPorUsuarioCod(usuCod) {
     const [paseos] = await connection.execute(
-      `SELECT * FROM ${TableName.PASEOS} WHERE UsuCod=${usuCod}`
+      `SELECT PasNum,PASEADORES.PasCod,UsuCod,PASEOS.PasDis,PasDir,PasFecAno,PasFecMes,PasFecDia,PasHor,PasCanHor,PasEst,PasNom FROM ${TableName.PASEOS} JOIN ${TableName.PASEADORES} ON ${TableName.PASEOS}.PasCod = ${TableName.PASEADORES}.PasCod WHERE PASEOS.UsuCod=${usuCod}`
     );
     const [temp] = await connection.execute(
       `SELECT MASCOTAS.MasCod,PasNum, MasNom,MasCol,MasRaz,MasEda,MasFotURL,MasDes,MasIsToAdo,MasUsuCod FROM ${TableName.PASEOS_MASCOTAS} JOIN ${TableName.MASCOTAS} ON ${TableName.PASEOS_MASCOTAS}.MasCod = ${TableName.MASCOTAS}.MasCod`
@@ -84,7 +84,7 @@ export default class PaseosModel {
   }
   static async getPaseosPorPaseadorCod(pasCod) {
     const [paseos] = await connection.execute(
-      `SELECT * FROM ${TableName.PASEOS} WHERE PasCod=${pasCod}`
+      `SELECT PasNum,PasCod,USUARIOS.UsuCod,PasDis,PasDir,PasFecAno,PasFecMes,PasFecDia,PasHor,PasCanHor,PasEst,UsuNom FROM ${TableName.PASEOS} JOIN ${TableName.USER} ON ${TableName.PASEOS}.UsuCod = ${TableName.USER}.UsuCod WHERE PASEOS.PasCod=${pasCod}`
     );
     const [temp] = await connection.execute(
       `SELECT MASCOTAS.MasCod,PasNum, MasNom,MasCol,MasRaz,MasEda,MasFotURL,MasDes,MasIsToAdo,MasUsuCod FROM ${TableName.PASEOS_MASCOTAS} JOIN ${TableName.MASCOTAS} ON ${TableName.PASEOS_MASCOTAS}.MasCod = ${TableName.MASCOTAS}.MasCod`
