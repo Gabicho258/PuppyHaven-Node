@@ -6,6 +6,8 @@
     "build": "tsc",
     "start:prod": "node dist/server.js",
     "db:deploy": "npx prisma migrate deploy && npx prisma generate",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:reset": "prisma migrate reset --force && npm run db:seed",
     "dev": "nodemon --exec tsx server.ts",
     "prisma:deploy:render": "npx prisma migrate deploy && prisma generate && npm run seed-regions && npm run seed-database",
     "build:prod:render": "npm install && tsc && npm run prisma:deploy:render"
