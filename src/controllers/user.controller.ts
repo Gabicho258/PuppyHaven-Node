@@ -45,11 +45,6 @@ export const getAllUsers = async (
       includeStats,
     }: UserFilterQuery = req.query;
 
-    // Paginación
-    const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
-    const skip = (pageNum - 1) * limitNum;
-
     // Construir filtros
     const where: any = {};
 
@@ -90,6 +85,7 @@ export const getAllUsers = async (
           fechaNacAno: true,
           fechaNacMes: true,
           fechaNacDia: true,
+          distritoId: true,
           distrito: {
             select: {
               id: true,
@@ -111,22 +107,12 @@ export const getAllUsers = async (
         orderBy: {
           id: "desc",
         },
-        skip,
-        take: limitNum,
       }),
       prisma.usuario.count({ where }),
     ]);
 
     const response = {
       usuarios: allUsers,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
-        hasNext: pageNum < Math.ceil(total / limitNum),
-        hasPrev: pageNum > 1,
-      },
     };
 
     res.status(200).json(response);
@@ -425,6 +411,7 @@ export const obtenerUserPorCod = async (
         fechaNacAno: true,
         fechaNacMes: true,
         fechaNacDia: true,
+        distritoId: true,
         distrito: {
           select: {
             id: true,

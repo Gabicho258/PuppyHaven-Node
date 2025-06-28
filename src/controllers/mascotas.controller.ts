@@ -22,11 +22,6 @@ export const getAllMascotas = async (
       limit = "10",
     }: MascotaFilterQuery = req.query;
 
-    // Paginación
-    const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
-    const skip = (pageNum - 1) * limitNum;
-
     // Construir filtros
     const where: any = {};
 
@@ -90,22 +85,12 @@ export const getAllMascotas = async (
           { paraAdopcion: "desc" }, // Mascotas en adopción primero
           { id: "desc" },
         ],
-        skip,
-        take: limitNum,
       }),
       prisma.mascota.count({ where }),
     ]);
 
     const response = {
       mascotas: allMascotas,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
-        hasNext: pageNum < Math.ceil(total / limitNum),
-        hasPrev: pageNum > 1,
-      },
     };
 
     res.status(200).json(response);

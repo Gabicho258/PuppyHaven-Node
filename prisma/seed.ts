@@ -22,36 +22,81 @@ const generateRandomBirthDate = () => {
 };
 
 // Datos de distritos de Lima
-const distritos = [
-  "Miraflores",
-  "San Isidro",
-  "Barranco",
-  "Surco",
-  "La Molina",
-  "San Borja",
-  "Magdalena",
-  "Jesús María",
-  "Lince",
-  "Pueblo Libre",
-  "Breña",
-  "Lima Cercado",
-  "Rímac",
-  "San Martín de Porres",
-  "Los Olivos",
-  "Independencia",
-  "Comas",
-  "Carabayllo",
-  "Puente Piedra",
-  "Ancón",
-  "Santa Anita",
-  "Ate",
-  "El Agustino",
-  "San Luis",
-  "La Victoria",
-  "Chorrillos",
-  "Villa María del Triunfo",
-  "Villa El Salvador",
-  "San Juan de Miraflores",
+export const distritos = [
+  {
+    DisCod: 1,
+    DisNom: "Alto Selva Alegre",
+  },
+  {
+    DisCod: 2,
+    DisNom: "Arequipa",
+  },
+  {
+    DisCod: 3,
+    DisNom: "Cayma",
+  },
+  {
+    DisCod: 4,
+    DisNom: "Cerro Colorado",
+  },
+  {
+    DisCod: 5,
+    DisNom: "Characato",
+  },
+  {
+    DisCod: 6,
+    DisNom: "Chiguata",
+  },
+  {
+    DisCod: 7,
+    DisNom: "Jacobo Hunter",
+  },
+  {
+    DisCod: 8,
+    DisNom: "Jose Luis Bustamante Y Rivero",
+  },
+  {
+    DisCod: 9,
+    DisNom: "La Joya",
+  },
+  {
+    DisCod: 10,
+    DisNom: "Mariano Melgar",
+  },
+  {
+    DisCod: 11,
+    DisNom: "Miraflores",
+  },
+
+  {
+    DisCod: 12,
+    DisNom: "Paucarpata",
+  },
+
+  {
+    DisCod: 13,
+    DisNom: "Sabandia",
+  },
+  {
+    DisCod: 14,
+    DisNom: "Sachaca",
+  },
+  {
+    DisCod: 15,
+    DisNom: "Socabaya",
+  },
+  {
+    DisCod: 16,
+    DisNom: "Tiabaya",
+  },
+  {
+    DisCod: 17,
+    DisNom: "Uchumayo",
+  },
+  {
+    DisCod: 18,
+    DisNom: "Yanahuara",
+  },
 ];
 
 // Datos de ejemplo para usuarios
@@ -233,9 +278,10 @@ async function main() {
     // 1. Crear distritos
     console.log("🏙️ Creando distritos...");
     const distritosCreados = [];
-    for (const nombreDistrito of distritos) {
+    for (const distritoSeed of distritos) {
+      const { DisCod, DisNom } = distritoSeed;
       const distrito = await prisma.distrito.create({
-        data: { nombre: nombreDistrito },
+        data: { id: DisCod, nombre: DisNom },
       });
       distritosCreados.push(distrito);
     }
@@ -333,7 +379,7 @@ async function main() {
           color: color,
           raza: raza,
           edad: edad,
-          fotoUrl: `https://dog.ceo/api/breeds/image/random`,
+          fotoUrl: `https://www.terranea.es/assets/images/razas/golden_retriever.jpg`,
           descripcion: `${nombreMascota} es un ${raza.toLowerCase()} de ${edad} año${
             edad !== 1 ? "s" : ""
           } muy cariñoso y juguetón. Le encanta ${
@@ -352,7 +398,7 @@ async function main() {
     // 6. Crear paseos
     console.log("🚶‍♂️ Creando paseos...");
     const totalPaseos = 60;
-    const estados = ["P", "A", "C", "R"];
+    const estados = ["P", "O", "C", "R"];
     const direcciones = [
       "Parque Kennedy",
       "Malecón de Miraflores",
@@ -468,7 +514,7 @@ async function main() {
     console.log("📋 Creando trámites de adopción...");
     const mascotasEnAdopcion = mascotas.filter((m) => m.paraAdopcion);
     const totalTramites = Math.min(20, mascotasEnAdopcion.length);
-    const estadosTramite = ["P", "A", "R", "C"];
+    const estadosTramite = ["P", "R"];
 
     for (let i = 0; i < totalTramites; i++) {
       const mascotaEnAdopcion = mascotasEnAdopcion[i];

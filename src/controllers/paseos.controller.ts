@@ -7,7 +7,7 @@ import {
 import prisma from "../lib/prisma";
 
 // Estados válidos para paseos
-const ESTADOS_VALIDOS = ["P", "A", "C", "R"]; // Pendiente, Aceptado, Completado, Rechazado
+const ESTADOS_VALIDOS = ["P", "O", "C", "R"]; // Pendiente, Aceptado, Completado, Rechazado
 
 // Obtener todos los paseos
 export const getAllPaseos = async (
@@ -25,11 +25,6 @@ export const getAllPaseos = async (
       page = "1",
       limit = "10",
     }: PaseoFilterQuery = req.query;
-
-    // Paginación
-    const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
-    const skip = (pageNum - 1) * limitNum;
 
     // Construir filtros
     const where: any = {};
@@ -159,22 +154,12 @@ export const getAllPaseos = async (
           { fechaDia: "desc" },
           { hora: "desc" },
         ],
-        skip,
-        take: limitNum,
       }),
       prisma.paseo.count({ where }),
     ]);
 
     const response = {
       paseos: allPaseos,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
-        hasNext: pageNum < Math.ceil(total / limitNum),
-        hasPrev: pageNum > 1,
-      },
     };
 
     res.status(200).json(response);

@@ -3,7 +3,7 @@ export interface TramiteCreateRequest {
   traUsuCodAdo: number;
   traUsuCodDue: number;
   traFecAno: number;
-  traFeMes: number;
+  traFecMes: number;
   traFecDia: number;
   traMasCod: number;
 }

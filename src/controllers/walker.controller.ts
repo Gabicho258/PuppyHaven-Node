@@ -69,11 +69,6 @@ export const getAllWalkers = async (
       includeStats,
     }: PaseadorFilterQuery = req.query;
 
-    // Paginación
-    const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
-    const skip = (pageNum - 1) * limitNum;
-
     // Construir filtros
     const where: any = {};
 
@@ -121,6 +116,7 @@ export const getAllWalkers = async (
           fechaNacAno: true,
           fechaNacMes: true,
           fechaNacDia: true,
+          distritoId: true,
           descripcion: true,
           disponibilidad: true,
           distrito: {
@@ -153,8 +149,6 @@ export const getAllWalkers = async (
           },
           { id: "desc" },
         ],
-        skip,
-        take: limitNum,
       }),
       prisma.paseador.count({ where }),
     ]);
@@ -184,14 +178,6 @@ export const getAllWalkers = async (
 
     const response = {
       paseadores: walkersConExtras,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
-        hasNext: pageNum < Math.ceil(total / limitNum),
-        hasPrev: pageNum > 1,
-      },
     };
 
     res.status(200).json(response);
@@ -397,6 +383,7 @@ export const editWalker = async (
       !pasDes?.trim() ||
       !pasDis?.trim()
     ) {
+      console.log(req.body);
       res.status(400).json({ error: "Todos los campos son requeridos" });
       return;
     }
@@ -570,6 +557,7 @@ export const obtenerWalkerPorCod = async (
         fechaNacDia: true,
         descripcion: true,
         disponibilidad: true,
+        distritoId: true,
         distrito: {
           select: {
             id: true,
@@ -604,7 +592,6 @@ export const obtenerWalkerPorCod = async (
             orderBy: {
               id: "desc",
             },
-            take: 5, // Últimos 5 comentarios
           },
         }),
       },

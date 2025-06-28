@@ -7,7 +7,7 @@ import {
 import prisma from "../lib/prisma";
 
 // Estados válidos para trámites
-const ESTADOS_VALIDOS = ["P", "A", "R", "C"]; // Pendiente, Aprobado, Rechazado, Completado
+const ESTADOS_VALIDOS = ["P", "R"]; // Pendiente, Aprobado, Rechazado, Completado
 
 // Obtener todos los trámites
 export const getAllTramite = async (
@@ -23,11 +23,6 @@ export const getAllTramite = async (
       page = "1",
       limit = "10",
     }: TramiteFilterQuery = req.query;
-
-    // Paginación
-    const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
-    const skip = (pageNum - 1) * limitNum;
 
     // Construir filtros
     const where: any = {};
@@ -145,22 +140,12 @@ export const getAllTramite = async (
           { fechaDia: "desc" },
           { id: "desc" },
         ],
-        skip,
-        take: limitNum,
       }),
       prisma.tramite.count({ where }),
     ]);
 
     const response = {
       tramites: allTramites,
-      pagination: {
-        page: pageNum,
-        limit: limitNum,
-        total,
-        totalPages: Math.ceil(total / limitNum),
-        hasNext: pageNum < Math.ceil(total / limitNum),
-        hasPrev: pageNum > 1,
-      },
     };
 
     res.status(200).json(response);
@@ -180,17 +165,18 @@ export const createTramite = async (
       traUsuCodAdo,
       traUsuCodDue,
       traFecAno,
-      traFeMes,
+      traFecMes,
       traFecDia,
       traMasCod,
     }: TramiteCreateRequest = req.body;
 
+    console.log(req.body);
     // Validación de datos
     if (
       !traUsuCodAdo ||
       !traUsuCodDue ||
       !traFecAno ||
-      !traFeMes ||
+      !traFecMes ||
       !traFecDia ||
       !traMasCod
     ) {
@@ -209,8 +195,8 @@ export const createTramite = async (
     // Validar fecha
     if (
       traFecAno < 2024 ||
-      traFeMes < 1 ||
-      traFeMes > 12 ||
+      traFecMes < 1 ||
+      traFecMes > 12 ||
       traFecDia < 1 ||
       traFecDia > 31
     ) {
@@ -289,7 +275,7 @@ export const createTramite = async (
         usuarioAdoptadorId: traUsuCodAdo,
         usuarioDuenoId: traUsuCodDue,
         fechaAno: traFecAno,
-        fechaMes: traFeMes,
+        fechaMes: traFecMes,
         fechaDia: traFecDia,
         mascotaId: traMasCod,
         estado: "P", // Pendiente por defecto
