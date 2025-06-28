@@ -17,14 +17,14 @@
 
 // export { userRouter, MascotasRouter };
 
-import calificacionesRouter from "./calificaciones.router.js";
-import distritosRouter from "./distritos.router.js";
-import mascotasRouter from "./mascotas.router.js";
-import paseosRouter from "./paseos.router.js";
-import tramitesRouter from "./tramites.router.js";
-import userRouter from "./user.router.js";
-import walkerRouter from "./walker.router.js";
-import comentariosRouter from "./comentarios.router.js";
+import calificacionesRouter from "./calificaciones.router";
+import distritosRouter from "./distritos.router";
+import mascotasRouter from "./mascotas.router";
+import paseosRouter from "./paseos.router";
+import tramitesRouter from "./tramites.router";
+import userRouter from "./user.router";
+import walkerRouter from "./walker.router";
+import comentariosRouter from "./comentarios.router";
 
 export {
   calificacionesRouter,

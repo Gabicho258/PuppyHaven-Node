@@ -1,6 +1,6 @@
 import express from "express";
 
-import { comentariosController } from "../controllers/index.js";
+import { comentariosController } from "../controllers";
 
 const { getAllComentarios, createComentarios, obtenerComentariosPorPasCod } =
   comentariosController;

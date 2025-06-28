@@ -1,0 +1,12 @@
+services:
+  puppy-haven-DB:
+    image: postgres:15.3
+    container_name: puppy-haven-DB
+    environment:
+      POSTGRES_DB: puppy_haven_db
+      POSTGRES_USER: puppy_haven_admin
+      POSTGRES_PASSWORD: puppy_haven_password
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres:/var/lib/postgresql/data

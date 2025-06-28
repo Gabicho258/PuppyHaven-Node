@@ -1,6 +1,6 @@
 import express from "express";
 
-import { distritosController } from "../controllers/index.js";
+import { distritosController } from "../controllers";
 
 const {
   getAllDistritos,

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { mascotasController } from "../controllers/index.js";
+import { mascotasController } from "../controllers";
 
 const {
   getAllMascotas,

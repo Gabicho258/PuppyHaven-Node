@@ -10,7 +10,7 @@ import {
   userRouter,
   walkerRouter,
   comentariosRouter,
-} from "./api/routes/index.js";
+} from "./src/routes/index.js";
 // import {
 //   userRouter,
 //   distritoRouter,
@@ -20,7 +20,6 @@ import {
 //   tramiteRouter,
 //   walkerRouter,
 // } from "./api/routes/index.js";
-import session from "express-session";
 
 const app = express();
 

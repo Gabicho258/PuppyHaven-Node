@@ -1,6 +1,6 @@
 import express from "express";
 
-import { userController } from "../controllers/index.js";
+import { userController } from "../controllers";
 
 const {
   getAllUsers,

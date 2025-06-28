@@ -1,6 +1,6 @@
 import express from "express";
 
-import { tramiteController } from "../controllers/index.js";
+import { tramiteController } from "../controllers";
 
 const {
   getAllTramite,

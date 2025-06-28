@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tabla de Distritos
+model Distrito {
+  id     Int    @id @default(autoincrement()) @map("DisCod")
+  nombre String @map("DisNom")
+
+  // Relaciones
+  usuarios   Usuario[]
+  paseadores Paseador[]
+
+  @@map("DISTRITOS")
+}
+
+// Tabla de Calificaciones
+model Calificacion {
+  id      Int @id @default(autoincrement()) @map("CalCod")
+  meGusta Int @map("CalMeGus")
+  noGusta Int @map("CalNoGus")
+
+  // Relaciones
+  paseadores Paseador[]
+
+  @@map("CALIFICACIONES")
+}
+
+// Tabla de Usuarios
+model Usuario {
+  id          Int    @id @default(autoincrement()) @map("UsuCod")
+  nombre      String @map("UsuNom")
+  correo      String @unique @map("UsuCor")
+  contrasena  String @map("UsuCon")
+  distritoId  Int    @map("DisCod")
+  fotoUrl     String @map("UsuFotURL")
+  fechaNacAno Int    @map("UsuFecNacAno")
+  fechaNacMes Int    @map("UsuFecNacMes")
+  fechaNacDia Int    @map("UsuFecNacDia")
+
+  // Relaciones
+  distrito              Distrito     @relation(fields: [distritoId], references: [id])
+  mascotas              Mascota[]
+  paseos                Paseo[]
+  comentarios           Comentario[]
+  tramitesComoAdoptador Tramite[]    @relation("UsuarioAdoptador")
+  tramitesComoDueno     Tramite[]    @relation("UsuarioDueno")
+
+  @@map("USUARIOS")
+}
+
+// Tabla de Paseadores
+model Paseador {
+  id             Int    @id @default(autoincrement()) @map("PasCod")
+  nombre         String @map("PasNom")
+  correo         String @unique @map("PasCor")
+  contrasena     String @map("PasCon")
+  distritoId     Int    @map("DisCod")
+  fotoUrl        String @map("PasFotURL")
+  fechaNacAno    Int    @map("PasFecNacAno")
+  fechaNacMes    Int    @map("PasFecNacMes")
+  fechaNacDia    Int    @map("PasFecNacDia")
+  descripcion    String @map("PasDes")
+  disponibilidad String @map("PasDis") // JSON string con horarios
+  calificacionId Int    @map("CalCod")
+
+  // Relaciones
+  distrito     Distrito     @relation(fields: [distritoId], references: [id])
+  calificacion Calificacion @relation(fields: [calificacionId], references: [id])
+  paseos       Paseo[]
+  comentarios  Comentario[]
+
+  @@map("PASEADORES")
+}
+
+// Tabla de Mascotas
+model Mascota {
+  id           Int     @id @default(autoincrement()) @map("MasCod")
+  nombre       String  @map("MasNom")
+  color        String  @map("MasCol")
+  raza         String  @map("MasRaz")
+  edad         Int     @map("MasEda")
+  fotoUrl      String  @map("MasFotURL")
+  descripcion  String  @map("MasDes")
+  paraAdopcion Boolean @map("MasIsToAdo")
+  usuarioId    Int     @map("MasUsuCod")
+
+  // Relaciones
+  usuario       Usuario        @relation(fields: [usuarioId], references: [id])
+  paseoMascotas PaseoMascota[]
+  tramites      Tramite[]
+
+  @@map("MASCOTAS")
+}
+
+// Tabla de Paseos
+model Paseo {
+  id            Int    @id @default(autoincrement()) @map("PasNum")
+  paseadorId    Int    @map("PasCod")
+  usuarioId     Int    @map("UsuCod")
+  distrito      String @map("PasDis")
+  direccion     String @map("PasDir")
+  fechaAno      Int    @map("PasFecAno")
+  fechaMes      Int    @map("PasFecMes")
+  fechaDia      Int    @map("PasFecDia")
+  hora          String @map("PasHor")
+  cantidadHoras Int    @map("PasCanHor")
+  estado        String @default("P") @map("PasEst") // P = Pendiente
+
+  // Relaciones
+  paseador      Paseador       @relation(fields: [paseadorId], references: [id])
+  usuario       Usuario        @relation(fields: [usuarioId], references: [id])
+  paseoMascotas PaseoMascota[]
+
+  @@map("PASEOS")
+}
+
+// Tabla intermedia para la relación muchos a muchos entre Paseos y Mascotas
+model PaseoMascota {
+  paseoId   Int @map("PasNum")
+  mascotaId Int @map("MasCod")
+
+  // Relaciones
+  paseo   Paseo   @relation(fields: [paseoId], references: [id], onDelete: Cascade)
+  mascota Mascota @relation(fields: [mascotaId], references: [id], onDelete: Cascade)
+
+  @@id([paseoId, mascotaId])
+  @@map("PASEOS_MASCOTAS")
+}
+
+// Tabla de Comentarios
+model Comentario {
+  id         Int     @id @default(autoincrement()) @map("ComCod")
+  usuarioId  Int     @map("UsuCod")
+  paseadorId Int     @map("PasCod")
+  esLike     Boolean @map("ComIsLike")
+  texto      String  @map("ComTex")
+
+  // Relaciones
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  paseador Paseador @relation(fields: [paseadorId], references: [id])
+
+  @@map("COMENTARIOS")
+}
+
+// Tabla de Trámites de Adopción
+model Tramite {
+  id                 Int    @id @default(autoincrement()) @map("TraCod")
+  usuarioAdoptadorId Int    @map("TraUsuCodAdo")
+  usuarioDuenoId     Int    @map("TraUsuCodDue")
+  fechaAno           Int    @map("TraFecAno")
+  fechaMes           Int    @map("TraFecMes")
+  fechaDia           Int    @map("TraFecDia")
+  mascotaId          Int    @map("TraMasCod")
+  estado             String @default("P") @map("TraEst") // P = Pendiente
+
+  // Relaciones
+  adoptador Usuario @relation("UsuarioAdoptador", fields: [usuarioAdoptadorId], references: [id])
+  dueno     Usuario @relation("UsuarioDueno", fields: [usuarioDuenoId], references: [id])
+  mascota   Mascota @relation(fields: [mascotaId], references: [id])
+
+  @@map("TRAMITES")
+}

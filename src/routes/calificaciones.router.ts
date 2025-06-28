@@ -1,6 +1,6 @@
 import express from "express";
 
-import { calificacionesController } from "../controllers/index.js";
+import { calificacionesController } from "../controllers";
 
 const {
   getAllCalificaciones,

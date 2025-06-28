@@ -1,6 +1,6 @@
 import express from "express";
 
-import { walkerController } from "../controllers/index.js";
+import { walkerController } from "../controllers";
 
 const {
   getAllWalkers,

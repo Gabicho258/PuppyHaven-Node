@@ -1,6 +1,6 @@
 import express from "express";
 
-import { paseosController } from "../controllers/index.js";
+import { paseosController } from "../controllers";
 
 const {
   getAllPaseos,
